@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+p {
+  text-align: center;
+  padding-top: 30px;
+  font-size: 30px;
+  #count {
+    font-size: 40px;
+    font-weight: bold;
+    padding-right: 10px;
+  }
+}
+.wrap {
+  position: relative;
+  width: 860px;
+  height: 860px;
+  background: #eee;
+  margin: 30px auto;
+  padding: 30px;
+  overflow: hidden;
+  li {
+    position: absolute;
+    float: left;
+    list-style: none;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    line-height: 200px;
+    background: #aaa;
+    color: #fff;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 30px;
+    &:nth-child(4n) {
+      margin-right: 0px;
+    }
+    &:nth-last-child(-n+4) {
+      margin-bottom: 0px;
+    }
+    &.red {
+      background: #eb0d0d;
+    }
+    &.blue {
+      background: #0879ff;
+    }
+    &.yellow {
+      background: #ccdd09;
+    }
+    &.green {
+      background: #00c926;
+    }
+    &.orange {
+      background: #ee861a;
+    }
+    &.purple {
+      background: #b514e6;
+    }
+    &.brown {
+      background: #8c6604;
+    }
+    &.black {
+      background: #000;
+    }
+  }
+  @for $i from 0 through 15 {
+
+    li:nth-child(#{$i+1}) {
+      @if $i <= 3 {
+        left: #{$i*220+30}px;
+        top: 30px;
+      } @else if $i >= 4 and $i <= 7 {
+        left: #{(-4+$i)*220+30}px;
+        top: 250px;
+      } @else if $i >= 8 and $i <= 11 {
+        left: #{(-8+$i)*220+30}px;
+        top: 470px;
+      } @else if $i >= 12 and $i <= 15 {
+        left: #{(-12+$i)*220+30}px;
+        top: 690px;
+      }
+    }
+  }
+}
