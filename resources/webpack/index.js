@@ -1,9 +1,14 @@
 import $ from 'jquery';
 import * as pixi from 'pixi.js';
+import {Text} from './Text';
 
 class Index {
 
   constructor() {
+
+    this.Text = new Text();
+    this.bind();
+
     // ステージ作成
     this.stage = new pixi.Container();
 
@@ -17,24 +22,13 @@ class Index {
     // レンダラーのviewをDOMへ追加
     $('#pixi').append(this.renderer.view);
 
-    // テキストオブジェクト作成
-    let text = 'Hello World !';
-    let style = {fontFamily: 'Meiryo', fontWeight: 'bold', fontSize: '30px', fill: 'white', dropShadow: true, dropShadowAlpha: 1, dropShadowColor: 'black'};
-    this.textObject = new pixi.Text(text, style);
-
-    this.textObject.position.x = width / 2;
-    this.textObject.position.y = height / 2;
-
-    // テキストオブジェクトをステージに乗せる
-    this.stage.addChild(this.textObject);
-
-    requestAnimationFrame(this.animateText.bind(this));
   }
 
-  animateText() {
-    requestAnimationFrame(this.animateText.bind(this));
-    this.textObject.rotation += 0.01;
-    this.renderer.render(this.stage);
+  bind() {
+    this.Text
+      .on('makedTextObject', () => {
+        this.Text.textOnStage(this.stage, this.renderer);
+      });
   }
 
 }
