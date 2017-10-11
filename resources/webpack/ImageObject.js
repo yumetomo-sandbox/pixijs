@@ -17,7 +17,7 @@ export class ImageObject extends events {
 
   createImageObject() {
     // テキストオブジェクト作成
-    let texture = pixi.Texture.fromImage('/images/enjin.png');
+    let texture = pixi.Texture.fromImage('./../images/enjin.png');
     this.imageObject = new pixi.Sprite(texture);
     this.setImageObjectProperty();
   }

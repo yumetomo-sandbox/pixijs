@@ -4,6 +4,7 @@ var watch = require('gulp-watch');
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
 var autoprefixer = require('gulp-autoprefixer');
+var webserver = require('gulp-webserver');
 
 // sass
 gulp.task('sass', function () {
@@ -24,4 +25,13 @@ gulp.task('watch', () => {
     return watch(['sass/**/*.scss'], () => {
         return gulp.start(['sass']);
     });
+});
+
+gulp.task('webserver', function () {
+    gulp.src('./../app/views/pages/') // 公開したい静的ファイルを配置したディレクトリを指定する
+        .pipe(webserver({
+            host: 'localhost',
+            port: 9000,
+            livereload: true
+        }));
 });
