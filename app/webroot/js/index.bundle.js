@@ -20874,7 +20874,7 @@ var ImageObject = exports.ImageObject = function (_events) {
     key: 'createImageObject',
     value: function createImageObject() {
       // テキストオブジェクト作成
-      var texture = pixi.Texture.fromImage('./../images/enjin.png');
+      var texture = pixi.Texture.fromImage('../images/enjin.png');
       this.imageObject = new pixi.Sprite(texture);
       this.setImageObjectProperty();
     }
