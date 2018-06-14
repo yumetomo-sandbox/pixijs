@@ -20927,8 +20927,6 @@ var ImageObject = exports.ImageObject = function (_events) {
   return ImageObject;
 }(_events3.default);
 
-new ImageObject();
-
 /***/ }),
 /* 91 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -21041,8 +21039,6 @@ var TextObject = exports.TextObject = function (_events) {
   return TextObject;
 }(_events3.default);
 
-new TextObject();
-
 /***/ }),
 /* 92 */,
 /* 93 */,
@@ -21066,6 +21062,8 @@ var _TextObject = __webpack_require__(91);
 
 var _ImageObject = __webpack_require__(90);
 
+var _MultipleObject = __webpack_require__(198);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -21078,6 +21076,7 @@ var Index = function () {
 
     this.TextObject = new _TextObject.TextObject();
     this.ImageObject = new _ImageObject.ImageObject();
+    this.MultipleObject = new _MultipleObject.MultipleObject();
     this.bind();
 
     this.createPixiContainer();
@@ -21094,6 +21093,10 @@ var Index = function () {
 
       this.ImageObject.on('setedImageObjectPosition', function () {
         _this.ImageObject.setContainerAndRenderer(_this.container, _this.renderer);
+      });
+
+      this.MultipleObject.on('setedMultipleObjectPosition', function () {
+        _this.MultipleObject.setContainerAndRenderer(_this.container, _this.renderer);
       });
     }
   }, {
@@ -41974,6 +41977,117 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 197 */,
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MultipleObject = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(10);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _pixi = __webpack_require__(21);
+
+var pixi = _interopRequireWildcard(_pixi);
+
+var _events2 = __webpack_require__(40);
+
+var _events3 = _interopRequireDefault(_events2);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var MultipleObject = exports.MultipleObject = function (_events) {
+  _inherits(MultipleObject, _events);
+
+  function MultipleObject() {
+    _classCallCheck(this, MultipleObject);
+
+    var _this = _possibleConstructorReturn(this, (MultipleObject.__proto__ || Object.getPrototypeOf(MultipleObject)).call(this));
+
+    _this.imageAnimating;
+
+    (0, _jquery2.default)('.multiple-image-btn').on('click', function () {
+      _this.createImageObject();
+    });
+
+    return _this;
+  }
+
+  _createClass(MultipleObject, [{
+    key: 'createImageObject',
+    value: function createImageObject() {
+      // テキストオブジェクト作成
+      var texture = pixi.Texture.fromImage('./../../webroot/images/enjin.png');
+      this.imageObject = new pixi.Sprite(texture);
+      this.setImageObjectProperty();
+    }
+  }, {
+    key: 'setImageObjectProperty',
+    value: function setImageObjectProperty() {
+      this.imageObject.position.x = 300;
+      this.imageObject.position.y = 200;
+      this.imageObject.anchor.x = 0.5;
+      this.imageObject.anchor.y = 0.5;
+      this.emit('setedMultipleObjectPosition');
+    }
+  }, {
+    key: 'setContainerAndRenderer',
+    value: function setContainerAndRenderer(container, renderer) {
+      this.container = container;
+      this.renderer = renderer;
+      this.removeObjectOnContainer();
+    }
+  }, {
+    key: 'removeObjectOnContainer',
+    value: function removeObjectOnContainer() {
+      // コンテナー上のオブジェクトを削除
+      for (var i = this.container.children.length - 1; i >= 0; i--) {
+        this.container.removeChild(this.container.children[i]);
+      }
+      this.addImageOnContainer();
+    }
+  }, {
+    key: 'addImageOnContainer',
+    value: function addImageOnContainer() {
+      // テキストオブジェクトをステージに乗せる
+      this.container.addChild(this.imageObject);
+
+      if (this.imageAnimating) {
+        cancelAnimationFrame(this.imageAnimating);
+      } else {
+        this.imageAnimating = requestAnimationFrame(this.renderImage.bind(this));
+      }
+    }
+  }, {
+    key: 'renderImage',
+    value: function renderImage() {
+      requestAnimationFrame(this.renderImage.bind(this));
+      this.imageObject.rotation += 0.05;
+      this.renderer.render(this.container);
+    }
+  }]);
+
+  return MultipleObject;
+}(_events3.default);
 
 /***/ })
 ],[94]);

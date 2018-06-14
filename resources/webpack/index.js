@@ -2,12 +2,14 @@ import $ from 'jquery';
 import * as pixi from 'pixi.js';
 import {TextObject} from './TextObject';
 import {ImageObject} from './ImageObject';
+import {MultipleObject} from './MultipleObject';
 
 class Index {
 
   constructor() {
     this.TextObject = new TextObject();
     this.ImageObject = new ImageObject();
+    this.MultipleObject = new MultipleObject();
     this.bind();
 
     this.createPixiContainer();
@@ -22,6 +24,11 @@ class Index {
     this.ImageObject
       .on('setedImageObjectPosition', () => {
         this.ImageObject.setContainerAndRenderer(this.container, this.renderer);
+      });
+
+    this.MultipleObject
+      .on('setedMultipleObjectPosition', () => {
+        this.MultipleObject.setContainerAndRenderer(this.container, this.renderer);
       });
   }
 

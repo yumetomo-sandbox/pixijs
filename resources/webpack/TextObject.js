@@ -64,5 +64,3 @@ export class TextObject extends events {
   }
 
 }
-
-new TextObject();

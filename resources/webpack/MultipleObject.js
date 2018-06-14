@@ -2,14 +2,14 @@ import $ from 'jquery';
 import * as pixi from 'pixi.js';
 import events from 'events';
 
-export class ImageObject extends events {
+export class MultipleObject extends events {
 
   constructor() {
     super();
 
     this.imageAnimating;
 
-    $('.image-btn').on('click', () => {
+    $('.multiple-image-btn').on('click', () => {
       this.createImageObject();
     });
 
@@ -27,7 +27,7 @@ export class ImageObject extends events {
     this.imageObject.position.y = 200;
     this.imageObject.anchor.x = 0.5;
     this.imageObject.anchor.y = 0.5;
-    this.emit('setedImageObjectPosition');
+    this.emit('setedMultipleObjectPosition');
   }
 
   setContainerAndRenderer(container, renderer) {
