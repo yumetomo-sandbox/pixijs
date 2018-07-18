@@ -32,6 +32,7 @@
   "dependencies": {
     "@types/pixi.js": "^4.5.4",
     "jquery": "^3.2.1",
+    "pixi-ease": "^1.1.1",
     "pixi.js": "^4.8.1"
   }
 }
