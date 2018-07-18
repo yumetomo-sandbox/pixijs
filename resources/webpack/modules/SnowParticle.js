@@ -1,5 +1,5 @@
-import * as PIXI from "pixi.js";
-import Ease from "pixi-ease";
+import * as PIXI from 'pixi.js';
+import Ease from 'pixi-ease';
 
 export default class SnowParticle {
   constructor($WRAPPER, PATHS, SIZE, SPEED) {
@@ -15,8 +15,6 @@ export default class SnowParticle {
       // 表示する画像の数
       const PARTICLES_AMOUNT = 100;
       const PARTICLES = [];
-      let positions = [];
-      let turned = [];
 
       // 表示する画像分ループ
       for (let index = 0; index < PARTICLES_AMOUNT; index++) {
@@ -41,15 +39,13 @@ export default class SnowParticle {
         PARTICLE.speed = (PARTICLE_SPEED + Math.random() * 0.5) * 0.5;
 
         PARTICLES.push(PARTICLE);
-        positions.push(PARTICLE.x);
-        turned.push("left");
         app.stage.addChild(PARTICLE);
 
         const list = new Ease.list();
         const POSITION_X = PARTICLE.x - 50 - this.getRandomInt(-30, 30);
         const DURATION = this.getRandomInt(3000, 5000);
         list.to(PARTICLE, { x: POSITION_X }, DURATION, {
-          ease: "easeInOutSine",
+          ease: 'easeInOutSine',
           repeat: true,
           reverse: true
         });
@@ -59,16 +55,6 @@ export default class SnowParticle {
         for (let index = 0; index < PARTICLES.length; index++) {
           //配列からデータ取得
           const PARTICLE = PARTICLES[index];
-          const POSITION = positions[index];
-          const TURNED = turned[index];
-
-          //横の位置
-          // const SWING =
-          //   TURNED === "left" ? Math.random() * 50 : Math.random() * -50;
-          // PARTICLE.x += SWING * (PARTICLE.width / 5000);
-
-          // if (PARTICLE.x >= POSITION + 50) turned[index] = "right";
-          // if (PARTICLE.x <= POSITION - 50) turned[index] = "left";
 
           //縦の位置
           PARTICLE.y += (PARTICLE.height / 5000) * PARTICLE.speed;
@@ -77,7 +63,6 @@ export default class SnowParticle {
           if (PARTICLE.y > this.contentHeight + PARTICLE.height) {
             PARTICLE.y = -PARTICLE.height;
             PARTICLE.x = Math.random() * app.screen.width;
-            positions[index] = PARTICLE.x;
           }
         }
       });

@@ -1,20 +1,31 @@
 {
-    "extends": ["eslint:recommended"],
-    "plugins": [],
-    "parserOptions": {
-      "ecmaVersion": 6,
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jquery": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
       "sourceType": "module"
-    },
-    "env": {
-      "browser": true,
-      "jquery": true,
-      "node": true
-    },
-    "globals": {
-      "require": true,
-      "module": true,
-      "__dirname": true,
-      "console": true
-    },
-    "rules": {}
+  },
+  "globals": {
+    "velocity": true,
+    "YT": true
+  },
+  "rules": {
+    "no-console"  : 0,
+    "no-alert"    : 0,
+    "no-debugger" : 1,
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "bracketSpacing": true
+      }
+    ]
+  }
 }
