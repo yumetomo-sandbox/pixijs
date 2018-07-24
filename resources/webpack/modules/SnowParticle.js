@@ -2,35 +2,36 @@ import * as PIXI from 'pixi.js';
 import Ease from 'pixi-ease';
 
 export default class SnowParticle {
-  constructor($WRAPPER, PATHS, SIZE, SPEED) {
+  constructor($WRAPPER, IMAGES, QUANTITY, SIZE, SPEED, SWING, SWING_DURATION) {
+    // 雪を降らせる領域の高さ・幅を取得
     this.contentWidth = $WRAPPER.offsetWidth;
     this.contentHeight = $WRAPPER.offsetHeight;
 
-    PIXI.loader.add(PATHS).load(() => {
+    // 画像をロード
+    PIXI.loader.add(IMAGES).load(() => {
+      // 親要素と同じサイズでCanvasを生成
       let app = new PIXI.Application(this.contentWidth, this.contentHeight, {
         backgroundColor: 0x1099bb
       });
       $WRAPPER.appendChild(app.view);
 
-      // 表示する画像の数
-      const PARTICLES_AMOUNT = 100;
       const PARTICLES = [];
 
-      // 表示する画像分ループ
-      for (let index = 0; index < PARTICLES_AMOUNT; index++) {
-        // 画像の設定
-        const IMAGE_PATH = this.getImagePath(PATHS);
+      // 表示する雪の数分ループ
+      for (let index = 0; index < QUANTITY; index++) {
+        // 使用する画像の設定
+        const IMAGE_PATH = this.getImagePath(IMAGES);
         const PARTICLE = new PIXI.Sprite.fromImage(IMAGE_PATH);
 
-        // 画像の位置をきめる
+        // 原点を中心に設定
         PARTICLE.anchor.set(0.5);
 
-        // 画像のサイズをランダムに設定
+        // サイズをランダムに設定
         const PARTICLE_SIZE = this.getRandomInt(SIZE.min, SIZE.max);
         PARTICLE.width = PARTICLE_SIZE;
         PARTICLE.height = PARTICLE_SIZE;
 
-        // 画像のX座標、Y座標をランダムに配置
+        // 雪のX座標、Y座標をランダムに配置
         PARTICLE.x = Math.random() * app.screen.width;
         PARTICLE.y = Math.random() * app.screen.height;
 
@@ -38,17 +39,25 @@ export default class SnowParticle {
         const PARTICLE_SPEED = this.getRandomInt(SPEED.min, SPEED.max);
         PARTICLE.speed = (PARTICLE_SPEED + Math.random() * 0.5) * 0.5;
 
-        PARTICLES.push(PARTICLE);
-        app.stage.addChild(PARTICLE);
+        const EASE_LIST = new Ease.list();
 
-        const list = new Ease.list();
-        const POSITION_X = PARTICLE.x - 50 - this.getRandomInt(-30, 30);
-        const DURATION = this.getRandomInt(3000, 5000);
-        list.to(PARTICLE, { x: POSITION_X }, DURATION, {
+        // 揺れ幅を設定
+        const POSITION_X = PARTICLE.x - this.getRandomInt(SWING.min, SWING.max);
+
+        // 揺れの速度を設定
+        const DURATION = this.getRandomInt(
+          SWING_DURATION.min,
+          SWING_DURATION.max
+        );
+
+        EASE_LIST.to(PARTICLE, { x: POSITION_X }, DURATION, {
           ease: 'easeInOutSine',
           repeat: true,
           reverse: true
         });
+
+        PARTICLES.push(PARTICLE);
+        app.stage.addChild(PARTICLE);
       }
 
       app.ticker.add(() => {
@@ -56,7 +65,7 @@ export default class SnowParticle {
           //配列からデータ取得
           const PARTICLE = PARTICLES[index];
 
-          //縦の位置
+          //縦の位置を更新
           PARTICLE.y += (PARTICLE.height / 5000) * PARTICLE.speed;
 
           //画面の一番下に行った時縦の位置をリセット、横の位置をランダムに配置
@@ -71,12 +80,12 @@ export default class SnowParticle {
 
   /**
    * 画像のパスを返す
-   * @param {Object} PATHS
+   * @param {Object} IMAGES
    */
-  getImagePath(PATHS) {
-    const MAX = PATHS.length;
+  getImagePath(IMAGES) {
+    const MAX = IMAGES.length;
     const INDEX = Math.floor(Math.random() * MAX);
-    return PATHS[INDEX];
+    return IMAGES[INDEX];
   }
 
   /**
