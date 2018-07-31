@@ -8,9 +8,9 @@ class Snow {
     // 雪の画像
     const $IMAGE_ELEMENTS = $WRAPPER.querySelectorAll('img');
     const IMAGES = [];
-    for (let index = 0; $IMAGE_ELEMENTS.length > index; index++) {
-      const IMAGE_SOURCE = $IMAGE_ELEMENTS[index].getAttribute('src');
-      IMAGES[index] = IMAGE_SOURCE;
+    for (let index = 0; index < $IMAGE_ELEMENTS.length; index++) {
+      const IMAGE_PATH = $IMAGE_ELEMENTS[index].getAttribute('src');
+      IMAGES.push(IMAGE_PATH);
     }
 
     // 降らせる雪の数
