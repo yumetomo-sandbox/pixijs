@@ -36,7 +36,8 @@ export default class SnowParticle {
         PARTICLE.y = Math.random() * APP.screen.height;
 
         // 揺れ幅を設定
-        const POSITION_X = PARTICLE.x - this.getRandomInt(SWING.min, SWING.max);
+        const SWING_WIDTH =
+          PARTICLE.x - this.getRandomInt(SWING.min, SWING.max);
 
         // 揺れの速度を設定
         const DURATION = this.getRandomInt(
@@ -45,7 +46,7 @@ export default class SnowParticle {
         );
 
         const EASE_LIST = new Ease.list();
-        EASE_LIST.to(PARTICLE, { x: POSITION_X }, DURATION, {
+        EASE_LIST.to(PARTICLE, { x: SWING_WIDTH }, DURATION, {
           ease: 'easeInOutSine',
           repeat: true,
           reverse: true
@@ -61,13 +62,16 @@ export default class SnowParticle {
 
       APP.ticker.add(() => {
         for (let index = 0; index < PARTICLES.length; index++) {
-          //配列からデータ取得
+          // 配列からデータ取得
           const PARTICLE = PARTICLES[index];
 
-          //縦の位置を更新
+          // 縦の位置を更新
           PARTICLE.y += (PARTICLE.height / 5000) * PARTICLE.speed;
 
-          //画面の一番下に行った時縦の位置をリセット、横の位置をランダムに配置
+          // 雪を回転
+          PARTICLE.rotation += 0.01;
+
+          // 画面の一番下に行った時縦の位置をリセット、横の位置をランダムに配置
           if (PARTICLE.y > CONTENT_HEIGHT + PARTICLE.height) {
             PARTICLE.y = -PARTICLE.height;
             PARTICLE.x = Math.random() * APP.screen.width;
